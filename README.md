@@ -135,3 +135,16 @@ class Itinerary:
             total += distance.magnitude
 
         return Distance(total, target_unit)
+        ## Week 7 - Domain Model
+
+Implemented the core domain model for the Waypoint application.
+
+Features completed:
+- Distance validation and unit conversion
+- Trail creation and difficulty validation
+- Trail equality based on ID
+- Itinerary trail management
+- Total distance calculation
+- Default distance unit support
+
+All Week 7 tests pass successfully.
