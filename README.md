@@ -172,3 +172,14 @@ I chose to reject mixed units instead of automatically converting them because i
 - Demonstrated method resolution order (MRO)
 
 All Week 8 tests pass successfully.
+
+## Week 9 - Django Setup
+
+Waypoint now includes a Django 4.2 project.
+
+### Setup
+
+Create a virtual environment:
+
+```powershell
+py -m venv env
