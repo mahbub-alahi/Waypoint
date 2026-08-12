@@ -148,3 +148,27 @@ Features completed:
 - Default distance unit support
 
 All Week 7 tests pass successfully.
+
+
+## Week 8 - Hierarchy and Operators
+
+Week 8 extends the Waypoint domain model with inheritance, polymorphism, abstract classes, mixins, and operator overloading.
+
+### Distance mixed-unit policy
+
+Arithmetic and ordering operations require matching units. For example, adding a distance in kilometers to a distance in miles raises a ValueError.
+
+I chose to reject mixed units instead of automatically converting them because it makes unit handling explicit and prevents hidden conversions during calculations.
+
+### Week 8 features
+
+- Trail is now an abstract base class
+- Added DayHike, BackpackingRoute, and TrailRun
+- Added GuidedDayHike using multi-level inheritance
+- Added ElevationMixin and RatingMixin
+- Added Distance arithmetic and comparison operators
+- Added polymorphic estimated_time() behavior
+- Added duck-typed FakeTrail testing
+- Demonstrated method resolution order (MRO)
+
+All Week 8 tests pass successfully.
