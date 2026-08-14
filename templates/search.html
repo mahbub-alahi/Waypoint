@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Trails</title>
+</head>
+<body>
+    <h1>Search Trails</h1>
+
+    <form method="GET">
+        <label for="q">Search:</label>
+        <input type="text" id="q" name="q" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <p>You searched for: {{ query }}</p>
+    {% else %}
+        <p>Enter a trail name to search.</p>
+    {% endif %}
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
