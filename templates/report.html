@@ -1,28 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Report a Trail</title>
-</head>
-<body>
-    <h1>Report a Trail</h1>
+{% extends "base.html" %}
 
-    <form method="POST">
-        {% csrf_token %}
+{% block title %}Report a Trail - Waypoint{% endblock %}
 
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br><br>
+{% block content %}
+<h1>Report a Trail</h1>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br><br>
+<form method="POST">
+    {% csrf_token %}
 
-        <label for="trail">Trail:</label><br>
-        <input type="text" id="trail" name="trail"><br><br>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br><br>
 
-        <label for="note">Note:</label><br>
-        <textarea id="note" name="note"></textarea><br><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br><br>
 
-        <button type="submit">Submit Report</button>
-    </form>
-</body>
-</html>
+    <label for="trail">Trail:</label><br>
+    <input type="text" id="trail" name="trail"><br><br>
+
+    <label for="note">Note:</label><br>
+    <textarea id="note" name="note"></textarea><br><br>
+
+    <button type="submit">Submit Report</button>
+</form>
+{% endblock %}

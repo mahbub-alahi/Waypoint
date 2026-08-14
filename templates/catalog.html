@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Trail Catalog - Waypoint{% endblock %}
+
+{% block content %}
+<h1>Trail Catalog</h1>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Distance (km)</th>
+        <th>Elevation (m)</th>
+        <th>Status</th>
+    </tr>
+
+    {% for trail in trails %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ trail.name }}</td>
+        <td>{{ trail.distance|floatformat:1 }}</td>
+        <td>{{ trail.elevation }}</td>
+        <td>
+            {% if not trail.is_open %}
+                CLOSED
+            {% elif trail.difficulty == "expert" %}
+                HARD
+            {% else %}
+                {{ trail.difficulty }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
