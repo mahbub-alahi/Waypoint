@@ -1,185 +1,158 @@
-class Distance:
-    """Represents a distance in kilometers or miles."""
+# Waypoint
 
-    KM_TO_MI = 0.621371
-    MI_TO_KM = 1.60934
+Waypoint is a Django-based trail finder and trip-planning application developed for the Application Programming course.
 
-    def __init__(self, magnitude, unit):
-        if magnitude < 0:
-            raise ValueError("Distance cannot be negative.")
+The project was developed individually across Weeks 7–14. It started as a Python object-oriented domain model and was later expanded into a Django web application using templates, forms, ORM models, admin management, and database relationships.
 
-        if unit not in ("km", "mi"):
-            raise ValueError("Unit must be 'km' or 'mi'.")
+## Features
 
-        self._magnitude = float(magnitude)
-        self._unit = unit
+- Trail catalog
+- Open-trail filtering
+- Trail distance and elevation information
+- Trail difficulty information
+- Park and Trail relationship using ForeignKey
+- Filter trails by park
+- Trail detail page
+- Trail report form with CSRF protection
+- Search page
+- Django Admin for managing trails and parks
+- Reusable Django templates with navbar and footer
+- Django ORM and migrations
+- Automated tests
 
-    @property
-    def magnitude(self):
-        return self._magnitude
+## Technologies
 
-    @property
-    def unit(self):
-        return self._unit
+- Python 3.12
+- Django 4.2
+- HTML
+- CSS
+- SQLite
+- Git
+- GitHub
 
-    def convert(self):
-        if self._unit == "km":
-            return Distance(self._magnitude * self.KM_TO_MI, "mi")
+## Setup
 
-        return Distance(self._magnitude * self.MI_TO_KM, "km")
-
-
-class Trail:
-    """Represents a trail."""
-
-    default_unit = "km"
-    allowed_difficulties = {"easy", "moderate", "hard", "expert"}
-
-    def __init__(
-        self,
-        trail_id,
-        name,
-        distance,
-        elevation_gain_m,
-        difficulty
-    ):
-        if not isinstance(distance, Distance):
-            raise TypeError("distance must be a Distance object.")
-
-        self.id = trail_id
-        self.name = name
-        self.distance = distance
-        self.elevation_gain_m = elevation_gain_m
-        self._difficulty = None
-
-        self.set_difficulty(difficulty)
-
-    @property
-    def difficulty(self):
-        return self._difficulty
-
-    def set_difficulty(self, difficulty):
-        if not self.is_valid_difficulty(difficulty):
-            raise ValueError("Invalid difficulty.")
-
-        self._difficulty = difficulty
-
-    @staticmethod
-    def is_valid_difficulty(difficulty):
-        return difficulty in Trail.allowed_difficulties
-
-    @staticmethod
-    def is_valid_unit(unit):
-        return unit in ("km", "mi")
-
-    @classmethod
-    def from_dict(cls, data):
-        unit = data.get("unit", cls.default_unit)
-
-        if not cls.is_valid_unit(unit):
-            raise ValueError("Invalid unit.")
-
-        distance = Distance(data["distance"], unit)
-
-        return cls(
-            trail_id=data["id"],
-            name=data["name"],
-            distance=distance,
-            elevation_gain_m=data["elevation_gain_m"],
-            difficulty=data["difficulty"]
-        )
-
-    @classmethod
-    def change_default_unit(cls, unit):
-        if not cls.is_valid_unit(unit):
-            raise ValueError("Invalid default unit.")
-
-        cls.default_unit = unit
-
-    def __eq__(self, other):
-        if not isinstance(other, Trail):
-            return NotImplemented
-
-        return self.id == other.id
-
-
-class Itinerary:
-    """Represents an ordered collection of trails."""
-
-    def __init__(self):
-        self._trails = []
-
-    @property
-    def trails(self):
-        return tuple(self._trails)
-
-    def add_trail(self, trail):
-        if not isinstance(trail, Trail):
-            raise TypeError("Only Trail objects can be added.")
-
-        self._trails.append(trail)
-
-    def total_distance(self):
-        if not self._trails:
-            return Distance(0, Trail.default_unit)
-
-        target_unit = self._trails[0].distance.unit
-        total = 0
-
-        for trail in self._trails:
-            distance = trail.distance
-
-            if distance.unit != target_unit:
-                distance = distance.convert()
-
-            total += distance.magnitude
-
-        return Distance(total, target_unit)
-        ## Week 7 - Domain Model
-
-Implemented the core domain model for the Waypoint application.
-
-Features completed:
-- Distance validation and unit conversion
-- Trail creation and difficulty validation
-- Trail equality based on ID
-- Itinerary trail management
-- Total distance calculation
-- Default distance unit support
-
-All Week 7 tests pass successfully.
-
-
-## Week 8 - Hierarchy and Operators
-
-Week 8 extends the Waypoint domain model with inheritance, polymorphism, abstract classes, mixins, and operator overloading.
-
-### Distance mixed-unit policy
-
-Arithmetic and ordering operations require matching units. For example, adding a distance in kilometers to a distance in miles raises a ValueError.
-
-I chose to reject mixed units instead of automatically converting them because it makes unit handling explicit and prevents hidden conversions during calculations.
-
-### Week 8 features
-
-- Trail is now an abstract base class
-- Added DayHike, BackpackingRoute, and TrailRun
-- Added GuidedDayHike using multi-level inheritance
-- Added ElevationMixin and RatingMixin
-- Added Distance arithmetic and comparison operators
-- Added polymorphic estimated_time() behavior
-- Added duck-typed FakeTrail testing
-- Demonstrated method resolution order (MRO)
-
-All Week 8 tests pass successfully.
-
-## Week 9 - Django Setup
-
-Waypoint now includes a Django 4.2 project.
-
-### Setup
-
-Create a virtual environment:
+### 1. Clone the repository
 
 ```powershell
-py -m venv env
+git clone https://github.com/mahbub-alahi/Waypoint.git
+cd Waypoint
+```
+
+### 2. Create a virtual environment
+
+```powershell
+py -3.12 -m venv env
+```
+
+### 3. Activate the virtual environment
+
+Windows PowerShell:
+
+```powershell
+.\env\Scripts\Activate.ps1
+```
+
+### 4. Install dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 5. Apply database migrations
+
+```powershell
+py manage.py migrate
+```
+
+### 6. Run the development server
+
+```powershell
+py manage.py runserver
+```
+
+Open the application at:
+
+```text
+http://127.0.0.1:8000/
+```
+
+Trail catalog:
+
+```text
+http://127.0.0.1:8000/trails/
+```
+
+Django Admin:
+
+```text
+http://127.0.0.1:8000/admin/
+```
+
+## Testing
+
+Run all automated tests with:
+
+```powershell
+py manage.py test
+```
+
+The Week 14 test suite covers:
+
+- Public catalog showing open trails and excluding closed trails
+- Missing trail detail returning HTTP 404
+- Domain validation rejecting a negative distance
+
+## Project Structure
+
+```text
+Waypoint/
+├── trails/
+│   ├── migrations/
+│   ├── admin.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── waypoint/
+├── waypoint_core/
+├── templates/
+├── static/
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+
+## Database Relationships
+
+Waypoint contains two main Django models:
+
+- `Park`
+- `Trail`
+
+Each Trail can belong to a Park through a Django `ForeignKey`.
+
+`on_delete=models.PROTECT` is used to prevent a Park from being deleted while Trail records still reference it.
+
+## Screenshots
+
+### Trail Catalog
+
+![Trail Catalog](screenshots/trail-catalog.png)
+
+### Django Admin
+
+![Django Admin](screenshots/django-admin.png)
+
+## Development History
+
+The project was developed incrementally across Weeks 7–14 using separate Git feature branches, pull requests, reviews, and release tags.
+
+- Week 7 — Domain model
+- Week 8 — Inheritance, polymorphism and operators
+- Week 9 — Django setup
+- Week 10 — Views, URLs and forms
+- Week 11 — Templates and trail catalog
+- Week 12 — ORM, models and admin
+- Week 13 — ForeignKey relationships
+- Week 14 — Testing, hardening and final handoff

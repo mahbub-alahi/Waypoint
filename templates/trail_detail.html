@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Trail Details - Waypoint{% endblock %}
+
+{% block content %}
+<h1>{{ trail.name }}</h1>
+
+<p><strong>Park:</strong>
+    {% if trail.park %}
+        {{ trail.park.name }}
+    {% else %}
+        No park assigned
+    {% endif %}
+</p>
+
+<p><strong>Distance:</strong> {{ trail.distance_km|floatformat:1 }} km</p>
+<p><strong>Elevation gain:</strong> {{ trail.elevation_gain }} m</p>
+<p><strong>Difficulty:</strong> {{ trail.difficulty }}</p>
+<p><strong>Open:</strong> {{ trail.is_open }}</p>
+
+<a href="/trails/">Back to Trail Catalog</a>
+{% endblock %}
