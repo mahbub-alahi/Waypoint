@@ -138,11 +138,11 @@ Each Trail can belong to a Park through a Django `ForeignKey`.
 
 ### Trail Catalog
 
-![Trail Catalog](screenshots/trail-catalog.png)
+!![Trail Catalog](screenshots/trail-catalog.jpg)
 
 ### Django Admin
 
-![Django Admin](screenshots/django-admin.png)
+![Django Admin](screenshots/django-admin.jpg)
 
 ## Development History
 
