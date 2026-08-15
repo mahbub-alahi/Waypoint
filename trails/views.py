@@ -3,6 +3,20 @@ from .models import Trail
 
 
 def catalog(request):
-    trails = Trail.objects.filter(is_open=True).order_by("distance_km")
+    park_name = request.GET.get("park", "")
 
-    return render(request, "catalog.html", {"trails": trails})
+    trails = Trail.objects.filter(is_open=True)
+
+    if park_name:
+        trails = trails.filter(park__name__icontains=park_name)
+
+    trails = trails.order_by("distance_km")
+
+    return render(
+        request,
+        "catalog.html",
+        {
+            "trails": trails,
+            "park_name": park_name,
+        }
+    )
