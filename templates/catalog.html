@@ -9,6 +9,7 @@
     <tr>
         <th>#</th>
         <th>Name</th>
+        <th>Park</th>
         <th>Distance (km)</th>
         <th>Elevation (m)</th>
         <th>Status</th>
@@ -18,8 +19,18 @@
     <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ trail.name }}</td>
+
+        <td>
+            {% if trail.park %}
+                {{ trail.park.name }}
+            {% else %}
+                No park assigned
+            {% endif %}
+        </td>
+
         <td>{{ trail.distance_km|floatformat:1 }}</td>
         <td>{{ trail.elevation_gain }}</td>
+
         <td>
             {% if not trail.is_open %}
                 CLOSED
